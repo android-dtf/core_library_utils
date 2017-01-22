@@ -1,0 +1,9 @@
+<Items>
+    <Item type="library"
+          name="Utils"
+          about="Helper methods"
+          version="1.0.0"
+          health="stable"
+          author="Jake Valletta (jakev)"
+          localName="Utils" />
+</Items>
