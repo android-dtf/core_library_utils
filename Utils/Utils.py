@@ -15,11 +15,14 @@
 #
 """Helper methods for various functionality"""
 
+from __future__ import absolute_import
+
 import hashlib
 import os
 import shlex
 
 from subprocess import Popen, PIPE
+
 
 # MD5 Related
 # Global Helpers
@@ -41,16 +44,18 @@ def md5_file(file_path):
     except IOError:
         return None
 
+
 # File related
 def get_file_size(file_name):
 
     """Get the file size of an existing file"""
-    
+
     try:
         stat_info = os.stat(file_name)
         return stat_info.st_size
     except OSError:
         return None
+
 
 # XZ Related
 def test_xz():
@@ -62,10 +67,8 @@ def test_xz():
     proc = Popen(lexed, stdout=PIPE, stderr=PIPE, shell=True)
     proc.wait()
 
-    if proc.returncode == 0:
-        return True
-    else:
-        return False
+    return bool(proc.returncode == 0)
+
 
 def decompress_xz(file_name):
 
@@ -79,6 +82,7 @@ def decompress_xz(file_name):
     return proc.returncode
 # End XZ Related
 
+
 # ZIP Related
 def extract_from_zip_to(zip_file, extract_path, file_name=None):
 
@@ -88,10 +92,10 @@ def extract_from_zip_to(zip_file, extract_path, file_name=None):
 
     if file_name is None:
         lexed = shlex.split("unzip -u \"%s\" -d \"%s\""
-                                                % (zip_file, extract_path))
+                            % (zip_file, extract_path))
     else:
         lexed = shlex.split("unzip -u \"%s\" \"%s\" -d \"%s\""
-                                    % (zip_file, file_name, extract_path))
+                            % (zip_file, file_name, extract_path))
 
     proc = Popen(lexed, stdout=null_f, stderr=null_f, shell=False)
     proc.wait()
@@ -99,6 +103,7 @@ def extract_from_zip_to(zip_file, extract_path, file_name=None):
     null_f.close()
 
     return proc.returncode
+
 
 def file_in_zip(zip_file, file_name):
 
@@ -109,10 +114,8 @@ def file_in_zip(zip_file, file_name):
     proc = Popen(lexed, stdout=PIPE, stderr=PIPE, shell=False)
     proc.wait()
 
-    if proc.returncode == 0:
-        return True
-    else:
-        return False
+    return bool(proc.returncode == 0)
+
 
 def get_files_in_zip(zip_file, pattern):
 
